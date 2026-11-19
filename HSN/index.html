@@ -74,7 +74,7 @@ esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&
 D="https://www.googleapis.com/drive/v3/files";
 const S={tok:null,meta:null,metaId:null,key:null,view:"in",cur:null,trash:false,err:"",busy:"",urls:{},big:null,reset:false,sel:new Set(),selMode:false,fav:false,set:false,safeOn:false,sv:"",mv:false,pend:null,skey:null,th:{},dirty:0,pack:{},packP:null,pdirty:0,shown:10,nf:{},gback:"in",me:null,menu:false,exp:0};
 function err(m){S.err=m;render()}
-function getTok(prompt,hint){return new Promise((ok,no)=>{google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID,scope:"https://www.googleapis.com/auth/drive.appdata openid email profile",prompt:prompt||"",hint:hint||undefined,callback:r=>r.access_token?(S.tok=r.access_token,ok()):no(r),error_callback:no}).requestAccessToken()})}
+function getTok(prompt,hint){return new Promise((ok,no)=>{google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID,scope:"https://www.googleapis.com/auth/drive.appdata openid email profile",prompt:prompt||"",hint:hint||undefined,callback:r=>{if(!r.access_token)return no(r);S.tok=r.access_token;try{sessionStorage.setItem("hs-tok",JSON.stringify({t:S.tok,x:Date.now()+(r.expires_in||3600)*1000}))}catch(e){}ok()},error_callback:no}).requestAccessToken()})}
 async function api(url,o={}){const r=await fetch(url,{...o,headers:{Authorization:"Bearer "+S.tok,...o.headers}});
  if(r.status===401){if(!S.exp){S.exp=1;if(S.view==="gal")render()}throw 0}
  if(!r.ok)throw new Error(r.status);return r}
@@ -151,7 +151,7 @@ async function savePack(){await S.packP;if(!S.pdirty||!S.key)return;S.pdirty=0;c
  m.pk=await put("thumbs.enc",e,m.pk);m.tv=(m.tv||0)+1;cp("pk"+m.tv+m.pk,await e.arrayBuffer());await saveMeta()}
 let pt;function queuePack(){clearTimeout(pt);pt=setTimeout(()=>savePack().catch(()=>{}),3000)}
 async function enter(){S.view="load";S.err="";render();S.packP=loadPack().catch(()=>{});
- await Promise.all([Promise.race([S.packP,new Promise(r=>setTimeout(r,8000))]),new Promise(r=>setTimeout(r,1300))]);S.view="gal";render()}
+ await Promise.all([Promise.race([S.packP,new Promise(r=>setTimeout(r,8000))]),new Promise(r=>setTimeout(r,1300))]);loadNav();S.view="gal";render()}
 async function url(p,cb){if(!S.urls[p.id]){const b=await dl(p.fid,cb,p.size+28);S.urls[p.id]=URL.createObjectURL(new Blob([await dec(b,kf(p))],{type:mime(p)}))}return S.urls[p.id]}
 async function thumb(p){if(S.th[p.id])return S.th[p.id];await S.packP;
  if(!p.s&&S.pack[p.id])return S.th[p.id]=URL.createObjectURL(new Blob([ub64(S.pack[p.id])],{type:"image/jpeg"}));
@@ -264,12 +264,16 @@ async function profile(){try{const r=await fetch("https://www.googleapis.com/oau
 async function signIn(prompt,hint){try{S.err="";await getTok(prompt,hint);S.me=await profile();if(S.me)try{localStorage.setItem("hs-acct",JSON.stringify(S.me))}catch(e){}await loadMeta();S.view="pass";render()}
  catch(x){if(x!==0)err("Google sign-in did not finish ("+((x&&(x.type||x.error||x.message))||"unknown reason")+"). Check the client ID setup and try again.")}}
 function signBtn(){const a=acct();return a?`<div class="me">${avatar(a)}<div><b>${esc(a.name||a.email)}</b><small>${esc(a.email)}</small></div></div><button class="p" onclick="signIn('',acct().email)">Continue as ${esc((a.name||"").split(" ")[0]||"you")}</button><p class="note"><button class="link" onclick="signIn('select_account')">Use another account</button></p>`:`<button class="p" onclick="signIn()">Continue with Google</button>`}
-function resetState(){S.tok=null;S.meta=null;S.metaId=null;S.key=null;S.skey=null;S.safeOn=false;S.sv="";S.th={};S.pack={};S.packP=null;S.urls={};S.cur=null;S.set=false;S.trash=false;S.fav=false;S.big=null;S.selMode=false;S.sel=new Set();S.menu=false;S.mv=false;S.exp=0;S.err="";S.me=null;S.view="in"}
+function resetState(){try{sessionStorage.removeItem("hs-tok");sessionStorage.removeItem("hs-nav")}catch(e){}S.tok=null;S.meta=null;S.metaId=null;S.key=null;S.skey=null;S.safeOn=false;S.sv="";S.th={};S.pack={};S.packP=null;S.urls={};S.cur=null;S.set=false;S.trash=false;S.fav=false;S.big=null;S.selMode=false;S.sel=new Set();S.menu=false;S.mv=false;S.exp=0;S.err="";S.me=null;S.view="in"}
 function signOut(){resetState();render()}
 function switchAcct(){resetState();render();signIn("select_account")}
 function forgetAcct(){try{google.accounts.oauth2.revoke(S.tok,()=>{})}catch(e){}try{localStorage.removeItem("hs-acct")}catch(e){}resetState();render()}
 async function reconnect(){try{await getTok("",S.me&&S.me.email);S.exp=0;S.err="";render();try{S.pdirty?await savePack():await saveMeta()}catch(e){}}catch(x){err("Could not reconnect. Try again.")}}
 function acctMenu(){const a=S.me||{};return`<div class="sheet" onclick="S.menu=false;render()"><div class="card st" onclick="event.stopPropagation()"><div class="me">${avatar(a)}<div><b>${esc(a.name||"Your account")}</b><small>${esc(a.email||"")}</small></div></div><button style="width:100%;margin:10px 0 4px" onclick="switchAcct()">Switch account</button><button style="width:100%;margin:4px 0" onclick="signOut()">Sign out</button><p class="note">Sign out keeps this account on the sign-in screen so you can continue with one tap.</p><button class="link danger" onclick="forgetAcct()">Sign out and forget this device</button> <button class="link" onclick="S.menu=false;render()">Close</button></div></div>`}
+function saveNav(){if(S.view!=="gal"||S.set||S.safeOn||!S.meta)return;try{const k=Object.keys(S.meta.folders);sessionStorage.setItem("hs-nav",JSON.stringify({f:S.cur===null?null:k[S.cur],t:S.trash,v:S.fav}))}catch(e){}}
+function loadNav(){try{const n=JSON.parse(sessionStorage.getItem("hs-nav")||"null");if(!n)return;const k=Object.keys(S.meta.folders);S.cur=n.f&&k.includes(n.f)?k.indexOf(n.f):null;S.trash=!!n.t;S.fav=!!n.v}catch(e){}}
+async function boot(){let a=acct(),t=null;try{t=JSON.parse(sessionStorage.getItem("hs-tok")||"null")}catch(e){}
+ if(a&&t&&t.x>Date.now()+60000){S.tok=t.t;S.me=a;S.view="load";render();try{await loadMeta();S.view="pass";render()}catch(x){S.tok=null;S.exp=0;S.me=null;S.view="in";render()}}else render()}
 let sx=0;addEventListener("touchstart",e=>{sx=e.touches[0].clientX},{passive:true});
 addEventListener("touchend",e=>{if(S.big&&e.target.tagName!=="VIDEO"){const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>60)nav(d<0?1:-1)}});
 addEventListener("keydown",e=>{if(!S.big)return;if(e.key==="ArrowRight")nav(1);if(e.key==="ArrowLeft")nav(-1);if(e.key==="Escape")closeV()});
@@ -282,7 +286,7 @@ function render(){const vk=[S.view,S.cur,S.trash,S.fav,S.set,S.reset,S.sv,S.safe
  else if(S.view==="pass"){const set=!S.meta;
   h=`<div class="card"><h1>${set?"Set your passcode":"Enter your passcode"}</h1><p>${set?"You will enter it each time you open your gallery.":"Unlock your gallery."}</p><label for="p">Passcode</label><input id="p" type="password" autocomplete="off">${set?'<label for="q">Confirm passcode</label><input id="q" type="password" autocomplete="off">':""}${e}<button class="p" onclick="passGo()">${set?"Save passcode":"Unlock"}</button>${set?"":' <button class="link" onclick="forgot()">Forgot passcode?</button>'}</div>`}
  else h=gallery();
- app.className=vk!==S.vk?"anim":"";S.vk=vk;app.innerHTML=h;if(globalThis.scrollTo)scrollTo(0,same?y:0);if(S.view==="gal")thumbs();renderV();bump()}
-render();
+ app.className=vk!==S.vk?"anim":"";S.vk=vk;app.innerHTML=h;if(globalThis.scrollTo)scrollTo(0,same?y:0);if(S.view==="gal")thumbs();renderV();saveNav();bump()}
+boot();
 if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script></body></html>
