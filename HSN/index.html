@@ -5,16 +5,17 @@
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg">
 <title>Hide&amp;Seek</title>
 <style>
-:root{--bg:#e8f0ef;--sf:#fff;--tx:#101c1b;--mu:#546361;--ac:#c77d00;--acx:#fff;--bd:rgba(16,28,27,.12);--dg:#b3261e;--gl:rgba(255,255,255,.55);--gb:rgba(255,255,255,.8);--hi:rgba(255,255,255,.95);--sh:0 10px 30px rgba(20,40,40,.12);--b1:#8fe0d3;--b2:#ffd58a;--b3:#c3b5ff;--bl:blur(22px) saturate(170%);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#e8f0ef;--sf:#fff;--tx:#101c1b;--mu:#546361;--ac:#c77d00;--acx:#fff;--bd:rgba(16,28,27,.12);--dg:#b3261e;--gl:rgba(255,255,255,.55);--gb:rgba(255,255,255,.8);--hi:rgba(255,255,255,.95);--sh:0 10px 30px rgba(20,40,40,.12);--b1:#8fe0d3;--b2:#ffd58a;--b3:#c3b5ff;--bl:blur(14px) saturate(150%);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1114;--sf:#142026;--tx:#eaf2f1;--mu:#9bb0ad;--ac:#ffb703;--acx:#1a1200;--bd:rgba(255,255,255,.12);--dg:#ff8a80;--gl:rgba(255,255,255,.07);--gb:rgba(255,255,255,.16);--hi:rgba(255,255,255,.2);--sh:0 14px 40px rgba(0,0,0,.45);--b1:#14867b;--b2:#b8730a;--b3:#4b3fb0}}
 :root[data-theme="dark"]{--bg:#0a1114;--sf:#142026;--tx:#eaf2f1;--mu:#9bb0ad;--ac:#ffb703;--acx:#1a1200;--bd:rgba(255,255,255,.12);--dg:#ff8a80;--gl:rgba(255,255,255,.07);--gb:rgba(255,255,255,.16);--hi:rgba(255,255,255,.2);--sh:0 14px 40px rgba(0,0,0,.45);--b1:#14867b;--b2:#b8730a;--b3:#4b3fb0}
 *{box-sizing:border-box}html{background:var(--bg);scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;color:var(--tx);font:16px/1.5 "DM Sans",system-ui,sans-serif;min-height:100vh;min-height:100dvh;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:-20%;z-index:-1;background:radial-gradient(40% 35% at 18% 18%,var(--b1),transparent 70%),radial-gradient(35% 30% at 85% 25%,var(--b3),transparent 70%),radial-gradient(40% 35% at 60% 92%,var(--b2),transparent 70%);filter:blur(30px);animation:drift 28s ease-in-out infinite alternate}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(40% 35% at 18% 18%,var(--b1),transparent 70%),radial-gradient(35% 30% at 85% 25%,var(--b3),transparent 70%),radial-gradient(40% 35% at 60% 92%,var(--b2),transparent 70%)}
 body.hid main{filter:blur(40px);opacity:0}
 main{max-width:980px;margin:0 auto;padding:0 14px 120px}
 h1{font-size:clamp(1.5rem,5vw,2rem);margin:0;letter-spacing:-.02em;line-height:1.15}small{color:var(--mu)}p{color:var(--mu);margin:4px 0 14px}
-.card,.fold,.top,.fab,.sbar,button,.btn,input,.code,.ph{background:var(--gl);border:1px solid var(--gb);-webkit-backdrop-filter:var(--bl);backdrop-filter:var(--bl);box-shadow:var(--sh),inset 0 1px 0 var(--hi)}
+.card,.fold,.sbar,button,.btn,.code{background:var(--gl);border:1px solid var(--gb);-webkit-backdrop-filter:var(--bl);backdrop-filter:var(--bl);box-shadow:var(--sh),inset 0 1px 0 var(--hi)}
+.top,.fab,input,.ph{background:var(--gl);border:1px solid var(--gb)}
 @supports not (backdrop-filter:blur(1px)){.card,.fold,.top,.fab,.sbar,button,.btn,input,.code,.ph{background:var(--sf)}}
 .card{border-radius:28px;padding:26px;max-width:420px;margin:7vh auto 0;text-align:center}.card input,.card label{text-align:left}.card label{display:block}
 .logo{width:68px;height:68px;border-radius:20px;margin:0 auto 14px;display:block;box-shadow:var(--sh)}
@@ -30,7 +31,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--ac);outline-off
 .fold{text-align:left;padding:16px;border-radius:24px;min-height:136px;display:flex;flex-direction:column;justify-content:flex-end}
 .fold b{display:block}.fi{font-size:1.9rem;color:var(--ac);margin-bottom:auto}.fold.new{border-style:dashed}
 .ph{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:1;cursor:pointer;padding:0;transition:transform .18s,border-color .2s}.ph.on{border:2px solid var(--ac);transform:scale(.94)}
-.ph img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transform:scale(1.06);transition:opacity .5s,transform .6s}.ph img.in{opacity:1;transform:none}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .25s}.ph img.in{opacity:1;transform:none}
 .vid{display:grid;place-items:center;width:100%;height:100%;font-size:2rem;color:var(--ac)}
 .chk{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;background:#0007;border:2px solid #fff;color:#fff;display:grid;place-items:center;font-size:.85rem;transition:background .2s}.ph.on .chk{background:var(--ac);color:var(--acx)}
 .lab{position:absolute;left:0;right:0;bottom:0;padding:3px 8px;background:#000a;color:#fff;font-size:.72rem}
@@ -51,6 +52,8 @@ select{width:100%;padding:12px;border-radius:14px;font:inherit;color:var(--tx);b
 .splash{min-height:80vh;display:grid;place-content:center;text-align:center;animation:fade .4s both}.pulse{animation:pulse 1.6s ease-in-out infinite}.prog{height:6px;width:min(260px,70vw);margin:14px auto 0;border-radius:6px;background:var(--bd);overflow:hidden}.prog i{display:block;height:100%;width:40%;background:var(--ac);border-radius:6px;animation:slide 1.2s ease-in-out infinite}
 .vprog{position:absolute;left:0;right:0;top:0;height:3px;background:#fff3;z-index:2}.vprog i{display:block;height:100%;width:0;background:var(--ac);transition:width .2s}
 @keyframes pulse{50%{transform:scale(1.08);box-shadow:0 0 40px var(--ac)}}@keyframes slide{from{transform:translateX(-100%)}to{transform:translateX(260%)}}
+.top{background:color-mix(in srgb,var(--bg) 88%,transparent)}.g2>.ph{content-visibility:auto;contain-intrinsic-size:auto 120px}
+button,.btn,.ph,.fold,.fab{touch-action:manipulation}body.nos{overflow:hidden}.viewer{overscroll-behavior:contain}.gs b{display:block}.gs p{margin:2px 0 14px}
 .msg{color:var(--dg);min-height:1.4em;margin:0}.note{font-size:.85rem}.empty{text-align:center;padding:56px 10px}
 .anim .card,.anim .empty,.anim .top{animation:rise .55s cubic-bezier(.2,.8,.2,1) both}
 .anim .fold,.anim .ph{animation:pop .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*45ms)}
@@ -58,7 +61,7 @@ select{width:100%;padding:12px;border-radius:14px;font:inherit;color:var(--tx);b
 @keyframes fade{from{opacity:0}}@keyframes drift{to{transform:translate3d(5%,4%,0) rotate(8deg) scale(1.1)}}
 @media (max-width:520px){.grid{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:repeat(3,1fr)}.card{margin-top:4vh;padding:22px}.fab{left:50%;right:auto;transform:translateX(-50%)}.fab:hover{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
-</style></head><body><main id="app"></main>
+</style></head><body><main id="app"></main><div id="vw"></div>
 <script src="https://accounts.google.com/gsi/client" async></script>
 <script>
 // 1) Paste your Google OAuth Web client ID here (see setup steps).
@@ -67,7 +70,7 @@ const $=id=>document.getElementById(id),app=$("app"),E=new TextEncoder(),
 b64=b=>btoa(String.fromCharCode(...new Uint8Array(b))),ub64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0)),
 esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])),
 D="https://www.googleapis.com/drive/v3/files";
-const S={tok:null,meta:null,metaId:null,key:null,view:"in",cur:null,trash:false,err:"",busy:"",urls:{},big:null,reset:false,sel:new Set(),selMode:false,fav:false,set:false,safeOn:false,sv:"",mv:false,pend:null,skey:null,th:{},dirty:0,pack:{},packP:null,pdirty:0};
+const S={tok:null,meta:null,metaId:null,key:null,view:"in",cur:null,trash:false,err:"",busy:"",urls:{},big:null,reset:false,sel:new Set(),selMode:false,fav:false,set:false,safeOn:false,sv:"",mv:false,pend:null,skey:null,th:{},dirty:0,pack:{},packP:null,pdirty:0,shown:10,nf:{},gback:"in"};
 function err(m){S.err=m;render()}
 function getTok(prompt){return new Promise((ok,no)=>{google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID,scope:"https://www.googleapis.com/auth/drive.appdata",prompt:prompt||"",callback:r=>r.access_token?(S.tok=r.access_token,ok()):no(r),error_callback:no}).requestAccessToken()})}
 async function api(url,o={}){const r=await fetch(url,{...o,headers:{Authorization:"Bearer "+S.tok,...o.headers}});
@@ -103,7 +106,7 @@ async function passGo(){const v=$("p").value;
 async function resetGo(){const v=$("p").value;if(!okPass(v))return;
  try{const raw=await unwrap(norm($("r").value),S.meta.wr);S.meta.wp=await wrap(v,raw);await saveMeta();await setKey(raw);S.reset=false;await enter()}
  catch(x){if(x!==0)err(x&&x.name==="OperationError"?"That recovery code is not correct.":"Something went wrong. Try again.")}}
-function rcDone(){if(!$("ok").checked)return err("Tick the box to confirm you saved the code.");S.rc=null;S.err="";S.view="gal";render()}
+function rcDone(){if(!$("ok").checked)return err("Tick the box to confirm you saved the code.");S.rc=null;S.err="";if(!S.meta.seen){S.meta.seen=1;saveMeta().catch(()=>{});S.gback="gal";S.view="guide"}else S.view="gal";render()}
 function lock(){S.view="pass";S.key=null;S.skey=null;S.safeOn=false;S.sv="";S.mv=false;S.pend=null;S.urls={};S.th={};S.pack={};S.packP=null;S.cur=null;S.big=null;S.trash=false;S.fav=false;S.set=false;S.selMode=false;S.sel=new Set();S.err="";render()}
 let t;function bump(){clearTimeout(t);const l=S.meta&&S.meta.lock!==undefined?S.meta.lock:60;if(S.view==="gal"&&!S.big&&l)t=setTimeout(lock,l*1000)}
 ["click","keydown","touchstart"].forEach(e=>addEventListener(e,bump));
@@ -114,23 +117,23 @@ const SAFE="Safe",all=()=>{const o=[];for(const f in S.meta.folders)S.meta.folde
 function sorted(L){const c={new:(a,b)=>at(b.p)-at(a.p),old:(a,b)=>at(a.p)-at(b.p),name:(a,b)=>a.p.name.localeCompare(b.p.name),size:(a,b)=>b.p.size-a.p.size}[S.meta.sort||"new"];return L.sort(c)}
 function items(){const k=Object.keys(S.meta.folders);return sorted(S.safeOn?sfi():S.trash?all().filter(x=>x.p.del):S.fav?all().filter(x=>x.p.fav&&!x.p.del):S.cur===null?[]:all().filter(x=>x.f===k[S.cur]&&!x.p.del))}
 function gallery(){if(S.set)return settings();if(S.sv)return safeScreen();
- const keys=Object.keys(S.meta.folders),L=items();S.list=L.map(x=>x.p.id);
+ const keys=Object.keys(S.meta.folders),L=items(),V=L.slice(0,S.shown);S.list=L.map(x=>x.p.id);
  const ex=S.trash||S.fav,home=!ex&&!S.safeOn&&S.cur===null,title=S.safeOn?"Safe":S.trash?"Recently deleted":S.fav?"Favorites":home?"Hide&amp;Seek":esc(keys[S.cur]);
  let h=`<header class="top"><div class="tl">${home?"":`<button class="ic" aria-label="Back" onclick="back()">←</button>`}<div><h1>${title}</h1><small>${home?mb(used())+" stored in your Google Drive":L.length+" item"+(L.length==1?"":"s")}</small></div></div><div class="tr">${!home&&!ex&&!S.safeOn?`<button class="ic" aria-label="Rename folder" onclick="renameF()">✎</button>`:""}${home?`<button class="ic" aria-label="Settings" onclick="S.set=true;render()">⚙</button>`:""}${!home&&L.length?`<button onclick="selMode()">${S.selMode?"Cancel":"Select"}</button>`:""}${S.trash&&L.length&&!S.selMode?`<button class="danger" onclick="forever(S.list)">Delete all</button>`:""}<button onclick="lock()">Lock</button></div></header>`;
  if(S.busy)h+=`<p role="status" class="note" id="bz">${esc(S.busy)}</p>`;if(S.err)h+=`<p class="msg" role="alert">${esc(S.err)}</p>`;
  if(home){const A=all(),nd=A.filter(x=>x.p.del).length,nf=A.filter(x=>x.p.fav&&!x.p.del).length;
   h+=`<div class="grid">`+keys.map((k,i)=>{const n=S.meta.folders[k].filter(p=>!p.del).length;return`<button class="fold" style="--i:${i}" onclick="S.cur=${i};render()"><span class="fi">▤</span><b>${esc(k)}</b><small>${n} item${n==1?"":"s"}</small></button>`}).join("")+`<button class="fold new" onclick="newFolder()"><span class="fi">+</span><b>New folder</b></button></div><div class="pills"><button onclick="S.fav=true;render()">♥ Favorites (${nf})</button><button onclick="openSafe()">Safe</button><button onclick="S.trash=true;render()">Recently deleted (${nd})</button></div>`}
  else{if(!L.length)h+=`<p class="empty">${S.trash?"Nothing here. Deleted items wait here until you restore or delete them forever.":S.fav?"No favorites yet. Open a photo and tap the heart.":"This folder is empty. Tap Add to bring in photos or videos."}</p>`;
-  h+=sortSel()+`<div class="grid g2">`+L.map(({p,f},i)=>{const on=S.sel.has(p.id);return`<div class="ph${on?" on":""}${p.fav?" fv":""}" style="--i:${Math.min(i,14)}" onclick="tap('${p.id}')"><img data-i="${p.id}" alt="${esc(p.name)}">${isV(p)?`<span class="play">▶</span>`:""}${p.fav?`<span class="heart">♥</span>`:""}${S.selMode?`<span class="chk">${on?"✓":""}</span>`:""}${ex?`<small class="lab">${esc(f)}</small>`:""}</div>`}).join("")+"</div>";
+  h+=sortSel()+`<div class="grid g2">`+V.map(({p,f},i)=>{const on=S.sel.has(p.id);return`<div class="ph${on?" on":""}${p.fav?" fv":""}" data-t="${p.id}" style="--i:${Math.min(i,14)}" onclick="tap('${p.id}')"><img data-i="${p.id}" alt="${esc(p.name)}"${S.th[p.id]?` src="${S.th[p.id]}" class="in"`:""}>${isV(p)?`<span class="play">▶</span>`:""}${p.fav?`<span class="heart">♥</span>`:""}${S.selMode?`<span class="chk">${on?"✓":""}</span>`:""}${ex?`<small class="lab">${esc(f)}</small>`:""}</div>`}).join("")+"</div>"+(V.length<L.length?`<p class="note" role="status">Loading more… ${V.length} of ${L.length}</p>`:"");
   if(!ex&&!S.selMode)h+=`<label class="fab">+ Add<input type="file" accept="image/*,video/*" multiple hidden onchange="addPhotos(this.files)"></label>`;
-  if(S.selMode)h+=`<div class="sbar"><span>${S.sel.size} selected</span><button onclick="selAll()">All</button>${S.trash?`<button class="danger" onclick="forever([...S.sel])" ${S.sel.size?"":"disabled"}>Delete forever</button><button class="p" onclick="bulk()" ${S.sel.size?"":"disabled"}>Restore</button>`:`<button onclick="shareSel()" ${S.sel.size?"":"disabled"}>Share</button><button onclick="downloadSel()" ${S.sel.size?"":"disabled"}>Download</button><button onclick="S.mv=true;render()" ${S.sel.size?"":"disabled"}>Move</button><button class="p" onclick="${S.safeOn?"forever([...S.sel])":"bulk()"}" ${S.sel.size?"":"disabled"}>Delete</button>`}</div>`}
- if(S.mv)h+=moveSheet();if(S.big)h+=viewer();return h}
-function viewer(){const i=S.list.indexOf(S.big),x=find(S.big);return`<div class="viewer"><div class="vtop"><button onclick="S.big=null;render()">← Back</button><span>${i+1} / ${S.list.length}</span><div class="tr"><button class="ic" aria-label="Favorite" onclick="fav('${S.big}')">${x&&x.p.fav?"♥":"♡"}</button><button class="ic" title="Share" aria-label="Share" onclick="shareSel(['${S.big}'])">↗</button><button class="ic" title="Download" aria-label="Download" onclick="downloadSel(['${S.big}'])">↓</button></div></div><div id="bv" class="vbody">Loading…</div>${i>0?`<button class="nav l" aria-label="Previous" onclick="nav(-1)">‹</button>`:""}${i<S.list.length-1?`<button class="nav r" aria-label="Next" onclick="nav(1)">›</button>`:""}</div>`}
+  if(S.selMode)h+=`<div class="sbar"><span id="sc">${S.sel.size} selected</span><button onclick="selAll()">All</button>${S.trash?`<button class="danger" onclick="forever([...S.sel])" ${S.sel.size?"":"disabled"}>Delete forever</button><button class="p" onclick="bulk()" ${S.sel.size?"":"disabled"}>Restore</button>`:`<button onclick="shareSel()" ${S.sel.size?"":"disabled"}>Share</button><button onclick="downloadSel()" ${S.sel.size?"":"disabled"}>Download</button><button onclick="S.mv=true;render()" ${S.sel.size?"":"disabled"}>Move</button><button class="p" onclick="${S.safeOn?"forever([...S.sel])":"bulk()"}" ${S.sel.size?"":"disabled"}>Delete</button>`}</div>`}
+ if(S.mv)h+=moveSheet();return h}
+function viewer(){const i=S.list.indexOf(S.big),x=find(S.big);return`<div class="viewer"><div class="vtop"><button onclick="closeV()">← Back</button><span>${i+1} / ${S.list.length}</span><div class="tr"><button class="ic" aria-label="Favorite" onclick="fav('${S.big}')">${x&&x.p.fav?"♥":"♡"}</button><button class="ic" title="Share" aria-label="Share" onclick="shareSel(['${S.big}'])">↗</button><button class="ic" title="Download" aria-label="Download" onclick="downloadSel(['${S.big}'])">↓</button></div></div><div id="bv" class="vbody">Loading…</div>${i>0?`<button class="nav l" aria-label="Previous" onclick="nav(-1)">‹</button>`:""}${i<S.list.length-1?`<button class="nav r" aria-label="Next" onclick="nav(1)">›</button>`:""}</div>`}
 function settings(){const m=S.meta,lk=m.lock!==undefined?m.lock:60,th=document.documentElement.dataset.theme||"";
  return`<header class="top"><div class="tl"><button class="ic" aria-label="Back" onclick="back()">←</button><div><h1>Settings</h1><small>${mb(used())} stored in your Google Drive</small></div></div></header>${S.err?`<p class="msg" role="alert">${esc(S.err)}</p>`:""}
 <div class="card st"><h2>Passcode</h2><label for="o">Current passcode</label><input id="o" type="password" autocomplete="off"><label for="p">New passcode</label><input id="p" type="password" autocomplete="off"><label for="q">Confirm new passcode</label><input id="q" type="password" autocomplete="off"><button class="p" onclick="chPass()">Change passcode</button> <button onclick="newRc()">New recovery code</button><p class="note">A new recovery code needs your current passcode above and replaces the old code.</p></div>
 <div class="card st"><h2>Auto-lock</h2><select aria-label="Auto-lock" onchange="setLock(this.value)">${[[30,"After 30 seconds"],[60,"After 1 minute"],[300,"After 5 minutes"],[0,"Never"]].map(([v,t])=>`<option value="${v}"${lk==v?" selected":""}>${t}</option>`).join("")}</select></div>
-<div class="card st"><h2>Uploads</h2><select aria-label="Upload quality" onchange="setOpt(this.value)"><option value="0"${m.opt?"":" selected"}>Original quality</option><option value="1"${m.opt?" selected":""}>Optimized: faster and smaller</option></select><p class="note">Optimized shrinks large photos to about 2560 px before saving. Videos are never changed.</p></div><div class="card st"><h2>Theme</h2><select aria-label="Theme" onchange="setTheme(this.value)">${[["","Match my device"],["light","Light"],["dark","Dark"]].map(([v,t])=>`<option value="${v}"${th==v?" selected":""}>${t}</option>`).join("")}</select></div>
+<div class="card st"><h2>Help</h2><button onclick="S.gback='gal';S.view='guide';render()">How it works</button></div><div class="card st"><h2>Uploads</h2><select aria-label="Upload quality" onchange="setOpt(this.value)"><option value="0"${m.opt?"":" selected"}>Original quality</option><option value="1"${m.opt?" selected":""}>Optimized: faster and smaller</option></select><p class="note">Optimized shrinks large photos to about 2560 px before saving. Videos are never changed.</p></div><div class="card st"><h2>Theme</h2><select aria-label="Theme" onchange="setTheme(this.value)">${[["","Match my device"],["light","Light"],["dark","Dark"]].map(([v,t])=>`<option value="${v}"${th==v?" selected":""}>${t}</option>`).join("")}</select></div>
 ${m.safe?`<div class="card st"><h2>Safe</h2><button onclick="S.sv='reset';S.set=false;render()">Reset safe lock</button><p class="note">Uses your main passcode.</p></div>`:""}<div class="card st"><h2>Account</h2><button onclick="signOut()">Sign out</button> <a class="btn" href="privacy.html" style="text-decoration:none;display:inline-block">Privacy policy</a></div>`}
 const DB=new Promise(ok=>{try{const r=indexedDB.open("hs",1);r.onupgradeneeded=()=>r.result.createObjectStore("c");r.onsuccess=()=>ok(r.result);r.onerror=()=>ok(null)}catch(e){ok(null)}});
 const cg=async k=>{const d=await DB;return d?new Promise(ok=>{try{const q=d.transaction("c").objectStore("c").get(k);q.onsuccess=()=>ok(q.result);q.onerror=()=>ok()}catch(e){ok()}}):undefined};
@@ -156,12 +159,12 @@ async function thumb(p){if(S.th[p.id])return S.th[p.id];await S.packP;
  else{if(isV(p))return null;const x=await url(p),tb=await mkThumb(await(await fetch(x)).blob(),false,192,.6);if(!tb)return x;bytes=await tb.arrayBuffer()}
  if(!p.s){S.pack[p.id]=bb(bytes);S.pdirty=1}
  return S.th[p.id]=URL.createObjectURL(new Blob([bytes],{type:"image/jpeg"}))}
-let io;
-function thumbs(){if(io)io.disconnect();const ims=[...document.querySelectorAll("img[data-i]")],q=[];let run=0;
- const pump=()=>{while(run<8&&q.length){run++;loadT(q.shift()).finally(()=>{run--;pump()})}};
- if(typeof IntersectionObserver==="undefined"){q.push(...ims);return pump()}
- io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){io.unobserve(e.target);q.push(e.target)}});pump()},{rootMargin:"600px"});ims.forEach(im=>io.observe(im))}
-async function loadT(im){const x=find(im.dataset.i);if(!x)return;try{const u=await thumb(x.p);if(u){im.onload=()=>im.classList.add("in");im.src=u}}catch(e){}if(S.pdirty)queuePack()}
+let tk=0;
+async function thumbs(){const my=++tk,all=[...document.querySelectorAll("img[data-i]")],ims=all.filter(im=>!im.getAttribute("src")&&!S.nf[im.dataset.i]);let i=0;
+ const w=async()=>{while(i<ims.length&&my===tk)await loadT(ims[i++])};
+ await Promise.all([w(),w(),w(),w(),w(),w(),w(),w()]);
+ if(my===tk&&S.view==="gal"&&all.length>0&&all.length<S.list.length){S.shown=all.length+(ims.length?10:40);render()}}
+async function loadT(im){const x=find(im.dataset.i);if(!x)return;try{const u=await thumb(x.p);if(u){im.onload=()=>im.classList.add("in");im.src=u}}catch(e){}if(!im.getAttribute("src"))S.nf[im.dataset.i]=1;if(S.pdirty)queuePack()}
 function vErr(){const b=$("bv");if(b)b.innerHTML='<p style="padding:24px;text-align:center;color:#fff">This video can’t play in this browser. Phone videos are often in a format (like HEVC) that some browsers don’t support. Use Download or Share, or try Chrome on your phone.</p>'}
 async function showBig(){const x=find(S.big);if(!x)return;const p=x.p,t=S.th[p.id];
  if(!S.urls[p.id]&&$("bv"))$("bv").innerHTML=(t&&!isV(p)?`<img src="${t}" alt="" style="filter:blur(3px)">`:"")+`<div class="vprog"><i id="vp"></i></div>${isV(p)?"Loading video…":""}`;
@@ -169,10 +172,11 @@ async function showBig(){const x=find(S.big);if(!x)return;const p=x.p,t=S.th[p.i
   $("bv").innerHTML=isV(p)?`<video src="${u}" controls playsinline preload="auto" poster="${t||""}" onerror="vErr()"></video>`:`<img src="${u}" alt="">`;
   const i=S.list.indexOf(S.big);[S.list[i+1],S.list[i-1]].forEach(id=>{const y=id&&find(id);if(y&&!isV(y.p))url(y.p).catch(()=>{})})}
  catch(e){if($("bv"))$("bv").textContent="Could not open this file."}}
-function nav(d){const i=S.list.indexOf(S.big)+d;if(i>=0&&i<S.list.length){S.big=S.list[i];render()}}
+function nav(d){const i=S.list.indexOf(S.big)+d;if(i>=0&&i<S.list.length){S.big=S.list[i];renderV()}}
 function back(){if(S.safeOn)return closeSafe();if(S.set)S.set=false;else if(S.trash)S.trash=false;else if(S.fav)S.fav=false;else S.cur=null;S.selMode=false;S.sel=new Set();render()}
 function selMode(){S.selMode=!S.selMode;S.sel=new Set();render()}
-function tap(id){if(S.selMode){S.sel.has(id)?S.sel.delete(id):S.sel.add(id);render()}else{S.big=id;render()}}
+function tap(id){if(S.selMode){S.sel.has(id)?S.sel.delete(id):S.sel.add(id);const t=document.querySelector('[data-t="'+id+'"]');if(t){const on=S.sel.has(id);t.classList.toggle("on",on);const c=t.querySelector(".chk");if(c)c.textContent=on?"✓":""}
+ const sc=$("sc");if(sc)sc.textContent=S.sel.size+" selected";document.querySelectorAll(".sbar button").forEach((b,i)=>{if(i)b.disabled=!S.sel.size})}else{S.big=id;renderV()}}
 function selAll(){S.sel=S.sel.size===S.list.length?new Set():new Set(S.list);render()}
 async function bulk(){const now=Date.now();all().forEach(x=>{if(S.sel.has(x.p.id))x.p.del=S.trash?false:now});S.sel=new Set();S.selMode=false;S.err="";render();try{await saveMeta()}catch(e){if(e!==0){S.err="Could not save the change. Try again.";render()}}}
 async function newFolder(){const n=(prompt("Folder name")||"").trim();if(n&&!S.meta.folders[n]){S.meta.folders[n]=[];try{await saveMeta()}catch(x){}render()}}
@@ -250,18 +254,23 @@ async function moveTo(i){const ids=[...S.sel];S.mv=false;
    S.meta.folders[to].push(x.p);await saveMeta()}catch(e){if(e===0)return}}
  await fin(old)}
 function moveSheet(){const ks=Object.keys(S.meta.folders),n=S.sel.size;return`<div class="sheet" onclick="S.mv=false;render()"><div class="card st" onclick="event.stopPropagation()"><h2>Move ${n} item${n==1?"":"s"} to</h2>${ks.map((k,i)=>`<button style="width:100%;margin:4px 0" onclick="moveTo(${i})">${esc(k)}</button>`).join("")}${S.safeOn?"":`<button class="p" style="width:100%;margin:4px 0" onclick="moveTo(-1)">Safe</button>`}<button class="link" onclick="S.mv=false;render()">Cancel</button></div></div>`}
+function renderV(){const v=$("vw"),on=!!S.big&&S.view==="gal"&&!S.set&&!S.sv;v.innerHTML=on?viewer():"";document.body.classList.toggle("nos",on||!!S.mv);if(on)showBig();bump()}
+function closeV(){S.big=null;renderV()}
+function guideScreen(){const st=[["Sign in with Google","Your photos live in a hidden app folder in your own Google Drive. Nobody else can see them."],["Set a passcode","You enter it every time you open the app. The app locks itself after a while, or tap Lock."],["Save your recovery code","It is shown once. It is the only way to reset a forgotten passcode. If you lose both, nobody can open your photos."],["Add photos and videos","Open a folder and tap + Add. Create folders on the home screen, and rename one with the pencil button."],["Work with many at once","Tap Select, pick items, then choose Delete, Move, Share or Download."],["Deleted by mistake?","Open Recently deleted and tap Restore. Photos return to their own folder. Delete forever removes them for good."],["Favorites","Open a photo and tap the heart. Find all your favorites on the home screen."],["The Safe","A second lock for your most private photos. Select photos, tap Move, then Safe. If you forget the Safe passcode, reset it with your main passcode."],["Use it on other devices","Sign in with the same Google account and enter your passcode."],["Install on your phone","Open the site in Chrome or Safari and choose Add to Home Screen."]];
+ return`<header class="top"><div class="tl"><button class="ic" aria-label="Back" onclick="S.view=S.gback||'in';render()">←</button><div><h1>How it works</h1><small>A quick guide</small></div></div></header><div class="card st">${st.map(([t,d],i)=>`<div class="gs"><b>${i+1}. ${t}</b><p>${d}</p></div>`).join("")}</div>`}
 let sx=0;addEventListener("touchstart",e=>{sx=e.touches[0].clientX},{passive:true});
 addEventListener("touchend",e=>{if(S.big&&e.target.tagName!=="VIDEO"){const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>60)nav(d<0?1:-1)}});
-addEventListener("keydown",e=>{if(!S.big)return;if(e.key==="ArrowRight")nav(1);if(e.key==="ArrowLeft")nav(-1);if(e.key==="Escape"){S.big=null;render()}});
-function render(){let h="";const e=`<p class="msg" role="alert">${esc(S.err)}</p>`;
- if(S.view==="in")h=`<div class="card"><img class="logo" src="icon.svg" alt=""><h1>Hide&amp;Seek</h1><p>Your private photo gallery. Photos are encrypted and saved in your own Google Drive.</p>${e}<button class="p" onclick="signIn()">Continue with Google</button><p class="note"><a href="privacy.html" style="color:var(--ac)">Privacy policy</a></p></div>`;
+addEventListener("keydown",e=>{if(!S.big)return;if(e.key==="ArrowRight")nav(1);if(e.key==="ArrowLeft")nav(-1);if(e.key==="Escape")closeV()});
+function render(){const vk=[S.view,S.cur,S.trash,S.fav,S.set,S.reset,S.sv,S.safeOn].join();const same=vk===S.vk,y=globalThis.scrollY||0;if(!same){S.shown=10;S.nf={}}let h="";const e=`<p class="msg" role="alert">${esc(S.err)}</p>`;
+ if(S.view==="in")h=`<div class="card"><img class="logo" src="icon.svg" alt=""><h1>Hide&amp;Seek</h1><p>Your private photo gallery. Photos are encrypted and saved in your own Google Drive.</p>${e}<button class="p" onclick="signIn()">Continue with Google</button><p class="note"><button class="link" onclick="S.gback='in';S.view='guide';render()">How it works</button> · <a href="privacy.html" style="color:var(--ac)">Privacy policy</a></p></div>`;
  else if(S.view==="load")h=`<div class="splash"><img class="logo pulse" src="icon.svg" alt=""><h1>Welcome back</h1><p>Opening your vault…</p><div class="prog"><i></i></div></div>`;
+ else if(S.view==="guide")h=guideScreen();
  else if(S.view==="rc")h=`<div class="card"><h1>Save your recovery code</h1><p>This is the only way to reset your passcode if you forget it. It is shown once. If you lose both, nobody can open your photos.</p><p class="code">${S.rc}</p><button onclick="navigator.clipboard&&navigator.clipboard.writeText(S.rc)">Copy code</button><p><label><input id="ok" type="checkbox" style="width:auto;margin-right:8px">I saved my recovery code somewhere safe</label></p>${e}<button class="p" onclick="rcDone()">Continue</button></div>`;
  else if(S.view==="pass"&&S.reset)h=`<div class="card"><h1>Reset passcode</h1><p>Enter your recovery code and choose a new passcode. Your photos stay safe.</p><label for="r">Recovery code</label><input id="r" autocomplete="off"><label for="p">New passcode</label><input id="p" type="password" autocomplete="off"><label for="q">Confirm new passcode</label><input id="q" type="password" autocomplete="off">${e}<button class="p" onclick="resetGo()">Reset passcode</button> <button class="link" onclick="S.reset=false;S.err='';render()">Back</button></div>`;
  else if(S.view==="pass"){const set=!S.meta;
   h=`<div class="card"><h1>${set?"Set your passcode":"Enter your passcode"}</h1><p>${set?"You will enter it each time you open your gallery.":"Unlock your gallery."}</p><label for="p">Passcode</label><input id="p" type="password" autocomplete="off">${set?'<label for="q">Confirm passcode</label><input id="q" type="password" autocomplete="off">':""}${e}<button class="p" onclick="passGo()">${set?"Save passcode":"Unlock"}</button>${set?"":' <button class="link" onclick="forgot()">Forgot passcode?</button>'}</div>`}
  else h=gallery();
- {const vk=[S.view,S.cur,S.trash,S.fav,S.set,S.reset,S.sv,S.safeOn].join();app.className=vk!==S.vk?"anim":"";S.vk=vk}app.innerHTML=h;if(S.view==="gal"){thumbs();if(S.big)showBig()}bump()}
+ app.className=vk!==S.vk?"anim":"";S.vk=vk;app.innerHTML=h;if(globalThis.scrollTo)scrollTo(0,same?y:0);if(S.view==="gal")thumbs();renderV();bump()}
 render();
 if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script></body></html>
